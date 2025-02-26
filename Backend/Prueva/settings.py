@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,11 +26,27 @@ SECRET_KEY = 'django-insecure-av25r^3)5(fx^7s$gpjxpbvv7chq6+wuq1ub_qc=dtbk$1sh=y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+#Estudiar esto -> esto que esta a bajo, es para el JWT, junto con lo de SIMPLE_JWT
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',  # Autenticación con JWT
+    ),
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+}
+
+
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
-    '192.168.100.191',  # Agrega la IP de tu PC
+    '192.168.1.75',  # Agrega la IP de tu PC
     '0.0.0.0',       # (Opcional) Permite todas las conexiones en la red
+    '10.96.37.96',
 ]
 
 

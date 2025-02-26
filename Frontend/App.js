@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import * as Location from 'expo-location';
 import axios from 'axios';
 
-const API_URL = 'http://192.168.100.191:8000/api/productos/';
+const API_URL_CREATE = 'http://192.168.1.75:8000/api/productos/';  // Para la primera inserción
+const API_URL_UPDATE = 'http://192.168.1.75:8000/api/ubicacion/actualizar/';  // Para actualizaciones
 
 const App = () => {
     const [ubicacion, setUbicacion] = useState(null);
     const [suscripcion, setSuscripcion] = useState(null);
+    const ubicacionCreadaRef = useRef(false);
 
     useEffect(() => {
         const obtenerPermiso = async () => {
@@ -19,14 +21,21 @@ const App = () => {
         };
         obtenerPermiso();
     }, []);
-
+    
     const enviarUbicacion = async (coords) => {
         try {
-            await axios.post(API_URL, {
+            const url = ubicacionCreadaRef.current ? API_URL_UPDATE : API_URL_CREATE;
+            const metodo = ubicacionCreadaRef.current ? axios.put : axios.post;
+    
+            console.log(`Enviando ${ubicacionCreadaRef.current ? 'PUT' : 'POST'} a ${url}`);
+    
+            await metodo(url, {
                 latitud: coords.latitude,
                 longitud: coords.longitude
             });
-            console.log("Ubicación enviada al servidor:", coords);
+    
+            console.log("Ubicación enviada:", coords);
+            ubicacionCreadaRef.current = true;
         } catch (error) {
             console.error('Error al enviar la ubicación:', error);
         }
@@ -37,7 +46,6 @@ const App = () => {
             {
                 accuracy: Location.Accuracy.High,
                 timeInterval: 5000,  // Obtiene la ubicación cada 5 segundos
-                //distanceInterval: 10, // Se actualiza si el usuario se mueve 10 metros
             },
             (location) => {
                 setUbicacion(location.coords);
