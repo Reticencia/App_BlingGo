@@ -9,10 +9,8 @@ const API_URL = 'http://192.168.100.191:8000/api/productos/';
 const App = () => {
     const [ubicacion, setUbicacion] = useState(null);
     const [suscripcion, setSuscripcion] = useState(null);
-
-    // Usuario de prueba (esto debe venir del login en una implementación real)
-    const userId = "123";  
-    const userType = "usuario";  // Puede ser "usuario" o "conductor"
+    const [rol, setRol] = useState(null); // Estado para almacenar el rol seleccionado 
+    
 
     useEffect(() => {
         const obtenerPermiso = async () => {
@@ -28,8 +26,8 @@ const App = () => {
     const enviarUbicacion = async (coords) => {
         try {
             await axios.post(API_URL, {
-                user_id: userId,//Id del usuario si aplica
-                user_type: userType,// tipo de usuraio "usuario" o "conductor"
+                user_id: "123",//Id del usuario si aplica
+                user_type: rol, // "usuario" o "conductor"
                 latitud: coords.latitude,
                 longitud: coords.longitude
             });
@@ -69,9 +67,22 @@ const App = () => {
         }
     };
 
+    // Pantalla para seleccionar el rol antes de iniciar
+    if (!rol) {
+        return (
+            <View style={styles.container}>
+                <Text style={styles.title}>Selecciona tu rol</Text>
+                <Button title="Soy Conductor" onPress={() => setRol('conductor')} />
+                <Button title="Soy Pasajero" onPress={() => setRol('usuario')} />
+            </View>
+        );
+    }
+
+    // Agregue un texto para indicar el rol
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Ubicación en Tiempo Real</Text>
+            <Text style={styles.subtitle}>Rol seleccionado: {rol}</Text>
             <Button title="Iniciar Seguimiento" onPress={iniciarSeguimiento} />
             <Button title="Detener Seguimiento" onPress={detenerSeguimiento} />
             {ubicacion && (
@@ -91,6 +102,10 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 20,
+    },
+    subtitle: {// Decorar subtitulo
+        fontSize: 18,
+        marginBottom: 10,
     },
     text: {
         marginTop: 10,
