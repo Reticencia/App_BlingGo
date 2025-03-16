@@ -2,12 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import * as Location from 'expo-location';
 import axios from 'axios';
+import { Vibration } from 'react-native'; // Importa la API de vibración
 
 const API_URL = 'http://192.168.100.191:8000/api/productos/';
 
 const App = () => {
     const [ubicacion, setUbicacion] = useState(null);
     const [suscripcion, setSuscripcion] = useState(null);
+
+    // Usuario de prueba (esto debe venir del login en una implementación real)
+    const userId = "123";  
+    const userType = "usuario";  // Puede ser "usuario" o "conductor"
 
     useEffect(() => {
         const obtenerPermiso = async () => {
@@ -23,10 +28,19 @@ const App = () => {
     const enviarUbicacion = async (coords) => {
         try {
             await axios.post(API_URL, {
+                user_id: userId,//Id del usuario si aplica
+                user_type: userType,// tipo de usuraio "usuario" o "conductor"
                 latitud: coords.latitude,
                 longitud: coords.longitude
             });
             console.log("Ubicación enviada al servidor:", coords);
+
+            // Si el backend responde con la alerta de proximidad, activar la vibración
+            if (response.data.message === "¡El camión está cerca!") {
+                Vibration.vibrate([500, 1000, 500]);  // Vibración con patrón
+                console.log("¡El camión está cerca! Vibrando...");
+            }
+
         } catch (error) {
             console.error('Error al enviar la ubicación:', error);
         }
