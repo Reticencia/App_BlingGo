@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import ProductoGeneric
+from .views import UsuariosGeneric
 
 urlpatterns = [
-    path('productos/', ProductoGeneric.as_view()),
+    path('productos/', UsuariosGeneric.as_view()),
 ]

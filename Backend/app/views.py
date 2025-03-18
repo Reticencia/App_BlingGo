@@ -2,16 +2,16 @@ from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.response import Response # Para la respuesta de la ubicacion
 from rest_framework import status # Para alertar del estatus
-from .models import Productos
+from .models import usuarios
 from .serializer import ProductoSerializer
 from geopy.distance import geodesic  # Para calcular distancia entre coordenadas
 
 
 # Create your views here.
 
-class ProductoGeneric(generics.CreateAPIView):
+class UsuariosGeneric(generics.CreateAPIView):
 
-    queryset = Productos.objects.all()
+    queryset = usuarios.objects.all()
 
     serializer_class = ProductoSerializer
 
