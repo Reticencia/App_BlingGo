@@ -10,4 +10,3 @@ class Productos(models.Model):
     time = models.DateTimeField(auto_now_add=True)
 
 
-    
