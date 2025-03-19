@@ -3,7 +3,7 @@ from rest_framework import generics
 from rest_framework.response import Response # Para la respuesta de la ubicacion
 from rest_framework import status # Para alertar del estatus
 from .models import usuarios
-from .serializer import ProductoSerializer
+from .serializer import userSerializer
 from geopy.distance import geodesic  # Para calcular distancia entre coordenadas
 
 
@@ -13,7 +13,7 @@ class UsuariosGeneric(generics.CreateAPIView):
 
     queryset = usuarios.objects.all()
 
-    serializer_class = ProductoSerializer
+    serializer_class = userSerializer
 
     # Agregue esta clase que compara las ubicaciones de el conductor y el uruario con geopy
     def create(self, request, *args, **kwargs):
