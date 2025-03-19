@@ -30,6 +30,7 @@ ALLOWED_HOSTS = [
     'localhost',
     '192.168.100.191',  # Agrega la IP de tu PC
     '0.0.0.0',       # (Opcional) Permite todas las conexiones en la red
+    'fa36-200-94-17-82.ngrok-free.app'
 ]
 
 
@@ -64,6 +65,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:19006",  # Expo
     "http://127.0.0.1:8000",   # Backend Django
+    'https://fa36-200-94-17-82.ngrok-free.app'
 ]
 
 ROOT_URLCONF = 'Prueva.urls'
