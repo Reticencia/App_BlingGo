@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 
-class Productos(models.Model):
+class usuarios(models.Model):
     # Tipo de usuario
     USER_TYPES = [
         ('usuario', 'Usuario'),
